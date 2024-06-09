@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "popleft",
+        "setrecursionlimit"
+    ],
+    "files.autoSave": "afterDelay",
+    "editor.fontSize": 13,
+    "files.autoSaveDelay": 100
+}
