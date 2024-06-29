@@ -28,7 +28,7 @@ def merge_sort(numbers: list[int]) -> list[int]:
         k += 1
 
     while j < len(right):
-        numbers = right[j]
+        numbers[k] = right[j]
         j += 1
         k += 1
 
