@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Optional
 
 
 class Node:
@@ -78,15 +79,41 @@ class LinkedList:
 
         recursive(self.head, None)
 
+    # 偶数が連続した場合にリバースする
+    def reverse_even(self) -> None:
+        def recursive(head: Node, previous_node: Node) -> Optional[Node]:
+            if head is None:
+                return None
+
+            current_node = head
+            while current_node and current_node.data % 2 == 0:
+                next_node = current_node.next
+                current_node.next = previous_node
+
+                previous_node = current_node
+                current_node = next_node
+
+            if current_node != head:
+                head.next = current_node
+                recursive(current_node, None)
+                return previous_node
+            else:
+                head.next = recursive(head.next, head)
+                return head
+
+        self.head = recursive(self.head, None)
+
 
 if __name__ == "__main__":
     l = LinkedList()
+    l.append(2)
+    l.append(4)
+    l.append(6)
     l.append(1)
     l.append(2)
-    l.append(3)
-    l.insert(0)
+    l.append(4)
+    l.append(6)
     l.print()
     print("##################")
-    l.remove(2)
-    l.reverse_iterative()
+    l.reverse_even()
     l.print()
