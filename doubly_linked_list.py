@@ -76,6 +76,11 @@ class DoublyLinkedList:
             current_node = None
             return
 
+    def reverse_iterative(self) -> None:
+        previous_node = None
+        current_node = self.head
+        while current_node:
+            current_node.prev=current_node.next
 
 if __name__ == "__main__":
     d = DoublyLinkedList()
