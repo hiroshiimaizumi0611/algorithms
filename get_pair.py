@@ -12,9 +12,9 @@ def get_pair(numbers: list[int], target: int) -> Optional[Tuple[int, int]]:
 
 def get_pair_half_sum(numbers: list[int]) -> Optional[Tuple[int, int]]:
     sum_numbers = sum(numbers)
-    if sum_numbers % 2 != 0:
+    half_sum, reminder = divmod(sum_numbers, 2)
+    if reminder != 0:
         return
-    half_sum = int(sum_numbers / 2)
 
     cache = set()
     for num in numbers:
