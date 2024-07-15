@@ -13,6 +13,13 @@ class Queue(object):
         if self.queue:
             return self.queue.pop(0)
 
+    def reverse(self) -> None:
+        queue = []
+        while self.queue:
+            queue.append(self.queue.pop())
+        [self.queue.append(d) ]
+        self.queue = queue
+
 
 if __name__ == "__main__":
     q = deque()
@@ -32,7 +39,5 @@ if __name__ == "__main__":
     queue.enqueue(3)
     queue.enqueue(4)
     print(queue.queue)
-    print(queue.dequeue())
-    print(queue.dequeue())
-    print(queue.dequeue())
-    print(queue.dequeue())
+    queue.reverse()
+    print(queue.queue)
