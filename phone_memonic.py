@@ -30,5 +30,23 @@ def phone_memonic_v1(phone_number: str) -> list[str]:
     return candidate
 
 
+def phone_memonic_v2(phone_number: str) -> list[str]:
+    phone_number = [int(s) for s in phone_number.replace("-", "")]
+    candidate = []
+    stack = [""]
+
+    while len(stack) != 0:
+        alphabets = stack.pop()
+        if len(alphabets) == len(phone_number):
+            candidate.append(alphabets)
+        else:
+            for char in NUM_ALPHABET_MAPPING[phone_number[len(alphabets)]]:
+                stack.append(alphabets + char)
+
+    return candidate
+
+
 if __name__ == "__main__":
-    print(phone_memonic_v1("568-379-8466"))
+    for s in phone_memonic_v2("568-379-8466"):
+        if "LOVEPYTHON" in s:
+            print("♡ " + s)
