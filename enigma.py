@@ -45,6 +45,19 @@ class Rotor(PlugBoard):
         self.alphabet = ALPHABET
 
 
+class Refrector(object):
+
+    def __init__(self, map_alphabet):
+        self.map = dict(zip(ALPHABET, map_alphabet))
+        for x, y in self.map.items():
+            if x != self.map[y]:
+                raise ValueError(x, y)
+
+    def reflect(self, index_num):
+        reflected_char = self.map[ALPHABET[index_num]]
+        return ALPHABET.index(reflected_char)
+
+
 if __name__ == "__main__":
     # plug_board = PlugBoard("BADC")
     # encrypted_index = plug_board.forward(ALPHABET.index('A'))
@@ -52,16 +65,20 @@ if __name__ == "__main__":
     # decrypted = ALPHABET[plug_board.backward(encrypted_index)]
     # print(decrypted)
 
-    rotor = Rotor("BADC", 1)
+    # rotor = Rotor("BADC", 1)
 
-    encrypted_index = rotor.forward(ALPHABET.index('A'))
-    print(ALPHABET[encrypted_index])
-    decrypted = ALPHABET[rotor.backward(encrypted_index)]
-    print(decrypted)
+    # encrypted_index = rotor.forward(ALPHABET.index('A'))
+    # print(ALPHABET[encrypted_index])
+    # decrypted = ALPHABET[rotor.backward(encrypted_index)]
+    # print(decrypted)
 
-    rotor.rotate()
+    # rotor.rotate()
 
-    encrypted_index = rotor.forward(ALPHABET.index("A"))
-    print(ALPHABET[encrypted_index])
-    decrypted = ALPHABET[rotor.backward(encrypted_index)]
-    print(decrypted)
+    # encrypted_index = rotor.forward(ALPHABET.index("A"))
+    # print(ALPHABET[encrypted_index])
+    # decrypted = ALPHABET[rotor.backward(encrypted_index)]
+    # print(decrypted)
+
+    r = Refrector("BADC")
+    i = r.reflect(ALPHABET.index('A'))
+    print(ALPHABET[i])
