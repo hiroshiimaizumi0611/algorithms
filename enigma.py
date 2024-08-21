@@ -1,3 +1,4 @@
+import random
 import string
 
 
@@ -58,6 +59,47 @@ class Refrector(object):
         return ALPHABET.index(reflected_char)
 
 
+class EnigmaMachine(object):
+
+    def __init__(self, plug_board, rotors, reflector):
+        self.plug_board = plug_board
+        self.rotors = rotors
+        self.reflector = reflector
+
+    def encrypt(self, text):
+        return "".join([self.go_through(c) for c in list(text)])
+
+    def decrypt(self, text):
+        for rotor in self.rotors:
+            rotor.reset()
+        return "".join([self.go_through(c) for c in list(text)])
+
+    def go_through(self, char):
+        char = char.upper()
+        if char not in ALPHABET:
+            return char
+
+        index_num = ALPHABET.index(char)
+        index_num = self.plug_board.forward(index_num)
+
+        for rotor in self.rotors:
+            index_num = rotor.forward(index_num)
+
+        index_num = self.reflector.reflect(index_num)
+
+        for rotor in reversed(self.rotors):
+            index_num = rotor.backward(index_num)
+
+        index_num = self.plug_board.backward(index_num)
+        char = ALPHABET[index_num]
+
+        for rotor in reversed(self.rotors):
+            if rotor.rotate() % len(ALPHABET) != 0:
+                break
+
+        return char
+
+
 if __name__ == "__main__":
     # plug_board = PlugBoard("BADC")
     # encrypted_index = plug_board.forward(ALPHABET.index('A'))
@@ -79,6 +121,27 @@ if __name__ == "__main__":
     # decrypted = ALPHABET[rotor.backward(encrypted_index)]
     # print(decrypted)
 
-    r = Refrector("BADC")
-    i = r.reflect(ALPHABET.index('A'))
-    print(ALPHABET[i])
+    # r = Refrector("BADC")
+    # i = r.reflect(ALPHABET.index("A"))
+    # print(ALPHABET[i])
+
+    get_random_alphabet = lambda: "".join(random.sample(ALPHABET, len(ALPHABET)))
+    p = PlugBoard(get_random_alphabet())
+    r1 = Rotor(get_random_alphabet(), 3)
+    r2 = Rotor(get_random_alphabet(), 2)
+    r3 = Rotor(get_random_alphabet(), 1)
+
+    r = list(ALPHABET)
+    indexes = [i for i in range(len(ALPHABET))]
+    for _ in range(int(len(indexes) / 2)):
+        x = indexes.pop(random.randint(0, len(indexes) - 1))
+        y = indexes.pop(random.randint(0, len(indexes) - 1))
+        r[x], r[y] = r[y], r[x]
+    reflector = Refrector("".join(r))
+
+    machine = EnigmaMachine(p, [r1, r2, r3], reflector)
+    s = "ATTACK SILICON VALLEY"
+    e = machine.encrypt(s)
+    print(e)
+    d = machine.decrypt(e)
+    print(d)
