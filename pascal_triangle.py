@@ -6,6 +6,13 @@ def generate_pascal_triangle(depth: int) -> list[list[int]]:
     return data
 
 
+def print_pascal(data: list[int]) -> None:
+    max_digit = len(str(max(data[-1])))
+    width = max_digit + (max_digit % 2) + 2
+    for index, line in enumerate(data):
+        numbers = "".join([str(i).center(6, " ") for i in line])
+        print((" " * int(width / 2)) * (len(data) - index), numbers)
+
+
 if __name__ == "__main__":
-    for r in generate_pascal_triangle(5):
-        print(r)
+    print_pascal(generate_pascal_triangle(10))
